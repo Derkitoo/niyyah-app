@@ -1,0 +1,11 @@
+# Déploiement de l'app (PWA) sur Netlify
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# (routage par hash → pas de redirection nécessaire ; ce filet de sécurité
+#  renvoie toute URL inconnue vers l'app)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

@@ -1,0 +1,26 @@
+# dépendances
+node_modules/
+server/node_modules/
+
+# build
+dist/
+dist-ssr/
+*.tsbuildinfo
+
+# secrets & données runtime du serveur push (NE PAS versionner)
+server/vapid.json
+server/subscriptions.json
+.env
+.env.*
+*.local
+
+# Capacitor (généré ; décommente si tu ne veux pas versionner le natif)
+# android/
+# ios/
+
+# divers
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

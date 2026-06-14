@@ -1,0 +1,17 @@
+{
+  "name": "niyyah-push-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Serveur Web Push (VAPID) pour les rappels de jeûne Niyyah.",
+  "scripts": {
+    "start": "node index.js",
+    "genkeys": "node -e \"import('web-push').then(w=>{const k=w.default.generateVAPIDKeys();console.log('VAPID_PUBLIC='+k.publicKey);console.log('VAPID_PRIVATE='+k.privateKey);})\""
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "web-push": "^3.6.7"
+  }
+}

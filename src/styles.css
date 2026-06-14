@@ -1,0 +1,244 @@
+:root {
+  --green: #2f4a3e;
+  --green-d: #243a30;
+  --green-soft: #5c7a6b;
+  --gold: #b8945f;
+  --gold-l: #d9c39a;
+  --cream: #f6f1e7;
+  --cream-2: #efe7d6;
+  --card: #fffdf8;
+  --ink: #2c2a26;
+  --line: #e2d9c8;
+  --danger: #a8553f;
+  --ok: #6f8d6a;
+  --shadow: 0 6px 24px rgba(47, 74, 62, 0.08);
+  --radius: 18px;
+}
+
+/* ---- Thème sombre ---- */
+:root[data-theme="dark"] {
+  --cream: #10150f;     /* fond de page + surfaces claires deviennent sombres */
+  --cream-2: #1a221c;
+  --card: #1a221c;
+  --ink: #e9e3d6;
+  --line: #2a352d;
+  --green: #8cb29c;     /* accent utilisé comme TEXTE → éclairci pour le contraste */
+  --green-soft: #9fb3a7;
+  --gold: #cda86c;
+  --gold-l: #e3cfa6;
+  --shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+}
+/* on garde l'identité : header & actions primaires en émeraude profond */
+:root[data-theme="dark"] .header { background: #21352b; color: #ece6d8; }
+:root[data-theme="dark"] .header .dates { color: #cad9ce; }
+:root[data-theme="dark"] .btn:not(.ghost):not(.danger) { background: #2f4a3e; color: #f3efe6; }
+:root[data-theme="dark"] .chip.active { background: #2f4a3e; color: #f3efe6; border-color: #2f4a3e; }
+:root[data-theme="dark"] .dhikr .tap { background: #2f4a3e; color: #f3efe6; }
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body, #root { height: 100%; margin: 0; }
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+  background: var(--cream);
+}
+
+/* ---- Shell : cadre type téléphone, centré sur desktop ---- */
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100%;
+  background: var(--cream);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.08);
+}
+
+/* ---- Header ---- */
+.header {
+  background: var(--green);
+  color: var(--cream);
+  padding: calc(18px + env(safe-area-inset-top)) 20px 22px;
+  border-radius: 0 0 26px 26px;
+  position: relative;
+  overflow: hidden;
+}
+.header .ornament {
+  position: absolute; right: -28px; top: -28px; opacity: 0.18;
+}
+.header .greet { font-size: 13px; letter-spacing: 1px; color: var(--gold-l); }
+.header h1 {
+  font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  font-weight: 500; font-size: 26px; margin: 4px 0 2px; letter-spacing: .5px;
+}
+.header .dates { font-size: 12.5px; color: #cfe0d4; margin-top: 6px; line-height: 1.5; }
+.header .hijri { color: var(--gold-l); }
+
+/* ---- Content ---- */
+.content { flex: 1; padding: 18px 16px 96px; }
+.view-title {
+  font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  font-size: 22px; color: var(--green); margin: 4px 2px 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.eyebrow { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); }
+
+/* ---- Card ---- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 14px;
+}
+.card h3 { margin: 0 0 12px; font-size: 15px; color: var(--green); font-weight: 600; }
+.card .sub { font-size: 12px; color: var(--green-soft); margin: -8px 0 12px; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+
+/* ---- Prière : pastilles ---- */
+.salah-row { display: flex; justify-content: space-between; gap: 6px; }
+.prayer {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  background: none; border: none; cursor: pointer; padding: 4px 0;
+}
+.prayer .dot {
+  width: 42px; height: 42px; border-radius: 50%;
+  border: 1.8px solid var(--line); background: var(--cream);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: transparent; transition: all .15s ease;
+}
+.prayer.done .dot { background: var(--green); border-color: var(--green); color: var(--cream); }
+.prayer .lbl { font-size: 11px; color: var(--green-soft); }
+.prayer.done .lbl { color: var(--green); font-weight: 600; }
+
+/* ---- Checkbox lignes ---- */
+.check {
+  display: flex; align-items: center; gap: 12px; padding: 11px 4px;
+  border-bottom: 1px solid var(--line); cursor: pointer; user-select: none;
+}
+.check:last-child { border-bottom: none; }
+.check .box {
+  width: 24px; height: 24px; border-radius: 7px; border: 1.8px solid var(--green-soft);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  color: transparent; font-size: 14px; transition: all .15s ease;
+}
+.check.done .box { background: var(--green); border-color: var(--green); color: #fff; }
+.check .txt { font-size: 14.5px; }
+.check.done .txt { color: var(--green-soft); text-decoration: line-through; text-decoration-color: var(--line); }
+
+/* ---- Progress ---- */
+.progress { height: 10px; border-radius: 6px; background: var(--cream-2); overflow: hidden; }
+.progress > span { display: block; height: 100%; background: linear-gradient(90deg, var(--green-soft), var(--green)); border-radius: 6px; transition: width .3s ease; }
+.stat-big { font-family: "Palatino Linotype", Georgia, serif; font-size: 30px; color: var(--green); }
+.stat-lbl { font-size: 12px; color: var(--green-soft); }
+
+/* ---- Stat grid ---- */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.stat { background: var(--cream-2); border-radius: 14px; padding: 12px; text-align: center; }
+.stat .n { font-family: "Palatino Linotype", Georgia, serif; font-size: 24px; color: var(--green); }
+.stat .l { font-size: 10.5px; color: var(--green-soft); letter-spacing: .3px; margin-top: 2px; }
+
+/* ---- Inputs ---- */
+input.field, textarea.field {
+  width: 100%; border: 1px solid var(--line); border-radius: 12px; background: var(--cream);
+  padding: 11px 13px; font: inherit; font-size: 14px; color: var(--ink); resize: vertical;
+}
+input.field:focus, textarea.field:focus { outline: none; border-color: var(--gold); }
+label.lab { font-size: 12px; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; display: block; margin: 12px 0 6px; }
+
+/* ---- Buttons ---- */
+.btn {
+  border: none; border-radius: 12px; padding: 12px 16px; font: inherit; font-weight: 600;
+  font-size: 14px; cursor: pointer; background: var(--green); color: var(--cream);
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn.ghost { background: transparent; color: var(--green); border: 1.5px solid var(--line); }
+.btn.gold { background: var(--gold); }
+.btn.sm { padding: 8px 12px; font-size: 13px; border-radius: 10px; }
+.btn.block { width: 100%; }
+.btn.danger { background: transparent; color: var(--danger); border: 1.5px solid var(--line); }
+.icon-btn { background: none; border: none; cursor: pointer; color: var(--green-soft); padding: 4px; font-size: 18px; }
+
+/* ---- Dhikr counter ---- */
+.dhikr { text-align: center; }
+.dhikr .count { font-family: "Palatino Linotype", Georgia, serif; font-size: 64px; color: var(--green); line-height: 1; margin: 6px 0; }
+.dhikr .tap {
+  width: 150px; height: 150px; border-radius: 50%; margin: 8px auto;
+  background: var(--green); color: var(--cream); border: none; cursor: pointer;
+  font-size: 15px; letter-spacing: 1px; box-shadow: var(--shadow);
+  display: flex; align-items: center; justify-content: center;
+}
+.dhikr .tap:active { transform: scale(.97); }
+.chips { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+.chip { padding: 7px 12px; border-radius: 20px; border: 1.5px solid var(--line); background: var(--cream); font-size: 12.5px; cursor: pointer; color: var(--green-soft); }
+.chip.active { background: var(--green); color: var(--cream); border-color: var(--green); }
+
+/* ---- Juz / grid ---- */
+.juz-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+.juz {
+  aspect-ratio: 1; border-radius: 12px; border: 1.5px solid var(--line); background: var(--cream);
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  font-size: 13px; color: var(--green-soft); font-weight: 600;
+}
+.juz.on { background: var(--green); color: var(--cream); border-color: var(--green); }
+
+/* ---- Ramadan day rows ---- */
+.rmd-day { display: grid; grid-template-columns: 34px repeat(4, 1fr); gap: 6px; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--line); }
+.rmd-day .d { font-size: 13px; color: var(--green-soft); text-align: center; font-weight: 600; }
+.rmd-day.laylat .d { color: var(--gold); }
+.rmd-day.laylat { background: #faf3e4; border-radius: 8px; }
+.mini { width: 100%; aspect-ratio: 1; max-width: 30px; margin: 0 auto; border-radius: 8px; border: 1.5px solid var(--line); background: var(--cream); cursor: pointer; display: flex; align-items: center; justify-content: center; color: transparent; font-size: 13px; }
+.mini.on { background: var(--green); border-color: var(--green); color: #fff; }
+.rmd-head { display: grid; grid-template-columns: 34px repeat(4, 1fr); gap: 6px; margin-bottom: 4px; }
+.rmd-head span { font-size: 9.5px; text-transform: uppercase; letter-spacing: .3px; color: var(--gold); text-align: center; }
+
+/* ---- List items (dua) ---- */
+.list-item { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 13px 15px; margin-bottom: 10px; box-shadow: var(--shadow); }
+.list-item h4 { margin: 0 0 4px; font-size: 14.5px; color: var(--green); }
+.list-item p { margin: 0; font-size: 13px; color: var(--ink); line-height: 1.5; white-space: pre-wrap; }
+.empty { text-align: center; color: var(--green-soft); font-size: 13px; padding: 26px 10px; }
+
+/* ---- Plus menu ---- */
+.menu-item {
+  display: flex; align-items: center; gap: 14px; padding: 16px; background: var(--card);
+  border: 1px solid var(--line); border-radius: 14px; margin-bottom: 10px; cursor: pointer; box-shadow: var(--shadow);
+}
+.menu-item .mi-ic { width: 40px; height: 40px; border-radius: 11px; background: var(--cream-2); display: flex; align-items: center; justify-content: center; color: var(--green); flex-shrink: 0; }
+.menu-item .mi-t { font-size: 15px; color: var(--green); font-weight: 600; }
+.menu-item .mi-s { font-size: 12px; color: var(--green-soft); }
+.menu-item .mi-arrow { margin-left: auto; color: var(--gold); }
+
+/* ---- Quote ---- */
+.quote { text-align: center; font-family: "Palatino Linotype", Georgia, serif; font-style: italic; color: var(--green-soft); font-size: 14px; line-height: 1.6; padding: 8px 6px; }
+.arabic { font-family: "Traditional Arabic", "Arabic Typesetting", "Segoe UI", serif; direction: rtl; }
+
+/* ---- Back bar ---- */
+.subhead { display: flex; align-items: center; gap: 10px; margin: 2px 2px 14px; }
+.subhead .back { background: none; border: none; color: var(--green); font-size: 22px; cursor: pointer; padding: 0 4px 0 0; }
+.subhead h2 { font-family: "Palatino Linotype", Georgia, serif; font-size: 20px; color: var(--green); margin: 0; font-weight: 500; }
+
+/* ---- Bottom nav ---- */
+.nav {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 480px; background: var(--card); border-top: 1px solid var(--line);
+  display: flex; justify-content: space-around; padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
+  z-index: 40;
+}
+.nav button {
+  background: none; border: none; cursor: pointer; flex: 1;
+  display: flex; flex-direction: column; align-items: center; gap: 3px; color: var(--green-soft);
+  font-size: 10.5px; padding: 4px 0;
+}
+.nav button.active { color: var(--green); }
+.nav button .ni { width: 24px; height: 24px; }
+.nav button.active .ni { color: var(--green); }
+
+/* misc */
+.center { text-align: center; }
+.spacer { height: 8px; }
+.muted { color: var(--green-soft); }
+.tiny { font-size: 11.5px; }
+.flex { display: flex; gap: 10px; }
+.grow { flex: 1; }
