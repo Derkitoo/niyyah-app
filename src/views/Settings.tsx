@@ -132,6 +132,7 @@ export default function Settings() {
 
       <div className="card">
         <h3>Apparence</h3>
+        <p className="sub" style={{ marginTop: 0 }}>Thème</p>
         <div className="chips" style={{ justifyContent: "flex-start" }}>
           <span
             className={"chip" + (state.settings.theme === "light" ? " active" : "")}
@@ -146,6 +147,73 @@ export default function Settings() {
             🌙 Sombre
           </span>
         </div>
+
+        <label className="lab">Couleur d'accent</label>
+        <div className="swatches">
+          {([
+            { id: "indigo", name: "Indigo", color: "#3b3a82" },
+            { id: "sage", name: "Sauge", color: "#3c6b54" },
+            { id: "plum", name: "Prune", color: "#6d3b6e" },
+            { id: "blue", name: "Nuit", color: "#27508a" },
+          ] as const).map((a) => (
+            <button
+              key={a.id}
+              className={"swatch" + ((state.settings.accent ?? "indigo") === a.id ? " active" : "")}
+              style={{ background: a.color }}
+              aria-label={a.name}
+              onClick={() => update((d) => { d.settings.accent = a.id; })}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div className="card">
+        <h3>Mise en page</h3>
+
+        <label className="lab" style={{ marginTop: 0 }}>Style des cartes</label>
+        <div className="chips" style={{ justifyContent: "flex-start" }}>
+          {([
+            { id: "doux", label: "Doux" },
+            { id: "contour", label: "Contour" },
+            { id: "eleve", label: "Élevé" },
+          ] as const).map((c) => (
+            <span
+              key={c.id}
+              className={"chip" + ((state.settings.cardStyle ?? "doux") === c.id ? " active" : "")}
+              onClick={() => update((d) => { d.settings.cardStyle = c.id; })}
+            >
+              {c.label}
+            </span>
+          ))}
+        </div>
+
+        <label className="lab">Navigation</label>
+        <div className="chips" style={{ justifyContent: "flex-start" }}>
+          {([
+            { id: "flottante", label: "Flottante" },
+            { id: "pleine", label: "Pleine largeur" },
+          ] as const).map((n) => (
+            <span
+              key={n.id}
+              className={"chip" + ((state.settings.navStyle ?? "flottante") === n.id ? " active" : "")}
+              onClick={() => update((d) => { d.settings.navStyle = n.id; })}
+            >
+              {n.label}
+            </span>
+          ))}
+        </div>
+
+        <label className="lab">Arrondi des coins</label>
+        <input
+          type="range"
+          className="range"
+          min={14}
+          max={30}
+          step={2}
+          value={state.settings.radius ?? 22}
+          onChange={(e) => update((d) => { d.settings.radius = Number(e.target.value); })}
+        />
+        <p className="tiny muted" style={{ margin: 0 }}>{state.settings.radius ?? 22} px</p>
       </div>
 
       <div className="card">
