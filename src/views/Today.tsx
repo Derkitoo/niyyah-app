@@ -124,14 +124,16 @@ export default function Today() {
             </span>
           ))}
         </div>
-        <div className="count">{dhikr}</div>
-        <button className="tap" onClick={tapDhikr}>
-          {preset}
+        <button className="tap" onClick={tapDhikr} aria-label={`Compter ${preset}`}>
+          <span className="tap-name">{preset}</span>
+          <span className="tap-count">{dhikr}</span>
+          <span className="tap-hint">appuie pour compter</span>
         </button>
-        <div className="spacer" />
-        <button className="btn ghost sm" onClick={resetDhikr}>
-          Réinitialiser
-        </button>
+        <div className="dhikr-actions">
+          <button className="btn ghost sm" onClick={resetDhikr}>
+            Réinitialiser
+          </button>
+        </div>
       </div>
 
       {/* Gratitude */}
