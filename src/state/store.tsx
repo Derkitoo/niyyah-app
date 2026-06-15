@@ -37,7 +37,16 @@ export interface PrayerSettings {
 }
 
 export interface State {
-  settings: { name: string; theme: "light" | "dark"; pushServerUrl: string; pushPrayer: boolean };
+  settings: {
+    name: string;
+    theme: "light" | "dark";
+    accent: "indigo" | "sage" | "plum" | "blue";
+    radius: number;
+    cardStyle: "doux" | "contour" | "eleve";
+    navStyle: "flottante" | "pleine";
+    pushServerUrl: string;
+    pushPrayer: boolean;
+  };
   prayer: PrayerSettings;
   salah: Record<string, SalahDay>;
   habitDefs: HabitDef[];
@@ -64,6 +73,10 @@ const DEFAULT_STATE: State = {
   settings: {
     name: "",
     theme: "light",
+    accent: "indigo",
+    radius: 22,
+    cardStyle: "doux",
+    navStyle: "flottante",
     pushServerUrl: import.meta.env.VITE_PUSH_SERVER_URL || "http://localhost:4000",
     pushPrayer: false,
   },
@@ -105,7 +118,8 @@ function load(): State {
     if (!raw) return structuredClone(DEFAULT_STATE);
     const saved = JSON.parse(raw);
     // fusion défensive avec les valeurs par défaut (nouveaux champs)
-    return { ...structuredClone(DEFAULT_STATE), ...saved };
+    const base = structuredClone(DEFAULT_STATE);
+    return { ...base, ...saved, settings: { ...base.settings, ...(saved.settings || {}) } };
   } catch {
     return structuredClone(DEFAULT_STATE);
   }
