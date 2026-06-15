@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useStore, uid } from "../state/store";
 import { useNav } from "../state/nav";
-import { IconTrash, IconChevron } from "../components/icons";
+import { IconTrash, IconChevron, IconHand } from "../components/icons";
 
 export default function Dua() {
   const { state, update } = useStore();
@@ -59,13 +59,18 @@ export default function Dua() {
 
       {state.duas.map((d) => (
         <div className="list-item" key={d.id}>
-          <div className="row">
-            <h4>{d.title}</h4>
+          <div className="row" style={{ alignItems: "flex-start" }}>
+            <div style={{ flex: 1 }}>
+              <div className="dua-item-head">
+                <div className="tile"><IconHand size={17} /></div>
+                <h4>{d.title}</h4>
+              </div>
+              {d.text && <p>{d.text}</p>}
+            </div>
             <button className="icon-btn" onClick={() => remove(d.id)} aria-label="Supprimer">
               <IconTrash />
             </button>
           </div>
-          {d.text && <p>{d.text}</p>}
         </div>
       ))}
 

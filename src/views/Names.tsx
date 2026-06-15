@@ -5,32 +5,32 @@ import { IconChevron } from "../components/icons";
 // Sélection de noms d'Allah, bien connus, pour l'apprentissage.
 // Ce n'est volontairement pas la liste de référence complète des 99
 // (les listes varient selon les sources) — c'est un tracker.
-const NAMES: { t: string; fr: string }[] = [
-  { t: "Ar-Rahman", fr: "Le Tout-Miséricordieux" },
-  { t: "Ar-Rahim", fr: "Le Très-Miséricordieux" },
-  { t: "Al-Malik", fr: "Le Souverain" },
-  { t: "Al-Quddus", fr: "Le Pur" },
-  { t: "As-Salam", fr: "La Paix" },
-  { t: "Al-Mu'min", fr: "Le Rassurant" },
-  { t: "Al-Muhaymin", fr: "Le Gardien" },
-  { t: "Al-'Aziz", fr: "Le Puissant" },
-  { t: "Al-Jabbar", fr: "Le Contraignant" },
-  { t: "Al-Mutakabbir", fr: "Le Suprême" },
-  { t: "Al-Khaliq", fr: "Le Créateur" },
-  { t: "Al-Bari'", fr: "Le Producteur" },
-  { t: "Al-Musawwir", fr: "Le Façonneur" },
-  { t: "Al-Ghaffar", fr: "Le Grand Pardonneur" },
-  { t: "Al-Wahhab", fr: "Le Donateur" },
-  { t: "Ar-Razzaq", fr: "Le Pourvoyeur" },
-  { t: "Al-Fattah", fr: "Celui qui ouvre" },
-  { t: "Al-'Alim", fr: "L'Omniscient" },
-  { t: "Al-Hakim", fr: "Le Sage" },
-  { t: "Al-Wadud", fr: "Le Tout-Aimant" },
-  { t: "Al-Hayy", fr: "Le Vivant" },
-  { t: "Al-Qayyum", fr: "Le Subsistant par Lui-même" },
-  { t: "An-Nur", fr: "La Lumière" },
-  { t: "Al-Hadi", fr: "Le Guide" },
-  { t: "As-Sabur", fr: "Le Patient" },
+const NAMES: { t: string; fr: string; ar: string }[] = [
+  { t: "Ar-Rahman", fr: "Le Tout-Miséricordieux", ar: "الرَّحمَٰن" },
+  { t: "Ar-Rahim", fr: "Le Très-Miséricordieux", ar: "الرَّحيم" },
+  { t: "Al-Malik", fr: "Le Souverain", ar: "المَلِك" },
+  { t: "Al-Quddus", fr: "Le Pur", ar: "القُدُّوس" },
+  { t: "As-Salam", fr: "La Paix", ar: "السَّلام" },
+  { t: "Al-Mu'min", fr: "Le Rassurant", ar: "المُؤمِن" },
+  { t: "Al-Muhaymin", fr: "Le Gardien", ar: "المُهَيمِن" },
+  { t: "Al-'Aziz", fr: "Le Puissant", ar: "العَزيز" },
+  { t: "Al-Jabbar", fr: "Le Contraignant", ar: "الجَبَّار" },
+  { t: "Al-Mutakabbir", fr: "Le Suprême", ar: "المُتَكَبِّر" },
+  { t: "Al-Khaliq", fr: "Le Créateur", ar: "الخَالِق" },
+  { t: "Al-Bari'", fr: "Le Producteur", ar: "البَارِئ" },
+  { t: "Al-Musawwir", fr: "Le Façonneur", ar: "المُصَوِّر" },
+  { t: "Al-Ghaffar", fr: "Le Grand Pardonneur", ar: "الغَفَّار" },
+  { t: "Al-Wahhab", fr: "Le Donateur", ar: "الوَهَّاب" },
+  { t: "Ar-Razzaq", fr: "Le Pourvoyeur", ar: "الرَّزَّاق" },
+  { t: "Al-Fattah", fr: "Celui qui ouvre", ar: "الفَتَّاح" },
+  { t: "Al-'Alim", fr: "L'Omniscient", ar: "العَليم" },
+  { t: "Al-Hakim", fr: "Le Sage", ar: "الحَكيم" },
+  { t: "Al-Wadud", fr: "Le Tout-Aimant", ar: "الوَدُود" },
+  { t: "Al-Hayy", fr: "Le Vivant", ar: "الحَيّ" },
+  { t: "Al-Qayyum", fr: "Le Subsistant par Lui-même", ar: "القَيَّوم" },
+  { t: "An-Nur", fr: "La Lumière", ar: "النُّور" },
+  { t: "Al-Hadi", fr: "Le Guide", ar: "الهَادي" },
+  { t: "As-Sabur", fr: "Le Patient", ar: "الصَّبُور" },
 ];
 
 export default function Names() {
@@ -54,25 +54,35 @@ export default function Names() {
 
       <div className="card">
         <div className="row">
-          <h3>À apprendre</h3>
-          <span className="stat-lbl">{learned}/{NAMES.length} appris</span>
+          <div>
+            <div className="eyebrow">Asmā’ Allāh al-Ḥusnā</div>
+            <h3 style={{ marginTop: 4, marginBottom: 0 }}>Les plus beaux noms</h3>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <div className="stat-big" style={{ fontSize: 26 }}>{learned}</div>
+            <div className="stat-lbl">/ {NAMES.length} appris</div>
+          </div>
         </div>
-        <p className="sub">Touche un nom une fois mémorisé.</p>
+        <div className="progress" style={{ marginTop: 12 }}>
+          <span style={{ width: `${(learned / NAMES.length) * 100}%` }} />
+        </div>
+      </div>
+
+      <div className="name-grid">
         {NAMES.map((n, i) => {
           const on = state.namesLearned[i] ?? false;
           return (
-            <div key={i} className={"check" + (on ? " done" : "")} onClick={() => toggle(i)}>
-              <span className="box">✓</span>
-              <span className="txt">
-                <strong>{n.t}</strong> — <span className="muted">{n.fr}</span>
-              </span>
+            <div key={i} className={"name-card" + (on ? " on" : "")} onClick={() => toggle(i)}>
+              <div className="nm-ar arabic">{n.ar}</div>
+              <div className="nm-tr">{n.t}</div>
+              <div className="nm-fr">{n.fr}</div>
             </div>
           );
         })}
       </div>
 
-      <p className="tiny muted center" style={{ marginBottom: 8 }}>
-        Sélection pour l'apprentissage — les listes des 99 noms varient selon les sources.
+      <p className="tiny muted center" style={{ margin: "14px 0 8px" }}>
+        Touche un nom une fois mémorisé · sélection pour l'apprentissage.
       </p>
     </>
   );

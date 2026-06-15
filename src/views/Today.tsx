@@ -90,7 +90,8 @@ export default function Today() {
 
   const tapDhikr = () =>
     update((d) => {
-      d.dhikr[k] = (d.dhikr[k] ?? 0) + 1;
+      const cur = d.dhikr[k] ?? 0;
+      if (cur < preset.target) d.dhikr[k] = cur + 1;
     });
   const resetDhikr = () =>
     update((d) => {
@@ -232,14 +233,18 @@ export default function Today() {
             </span>
           ))}
         </div>
-        <button className="tap" onClick={tapDhikr} aria-label={`Compter ${preset.fr}`}>
+        <button className={"tap" + (dhikr >= preset.target ? " complete" : "")} onClick={tapDhikr} aria-label={`Compter ${preset.fr}`}>
           {arabic ? (
             <span className="arabic tap-ar">{preset.ar}</span>
           ) : (
             <span className="tap-name">{preset.fr}</span>
           )}
           <span className="tap-count">{dhikr}</span>
-          <span className="tap-hint">/ {preset.target} · appuie</span>
+          {dhikr >= preset.target ? (
+            <span className="tap-hint done-hint">✓ {preset.target} accomplis</span>
+          ) : (
+            <span className="tap-hint">/ {preset.target} · appuie</span>
+          )}
         </button>
         <div className="dhikr-actions">
           <button className="btn ghost sm" onClick={resetDhikr}>

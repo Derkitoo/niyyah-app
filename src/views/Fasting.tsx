@@ -11,7 +11,7 @@ import {
 } from "../lib/fasting";
 import { requestPermission, permissionState, notificationsSupported } from "../lib/notify";
 import { usePrayerTimes } from "../lib/prayer";
-import { IconChevron } from "../components/icons";
+import { IconChevron, IconMoon, IconFast } from "../components/icons";
 
 // ordre d'affichage des chips : Lun … Dim
 const WEEKDAY_ORDER = [1, 2, 3, 4, 5, 6, 0];
@@ -80,6 +80,14 @@ export default function Fasting() {
         <h2>Jeûne</h2>
       </div>
 
+      <div className="hero-stat">
+        <div className="eyebrow">Jeûne surérogatoire</div>
+        <div className="hs-row">
+          <span className="hs-num">{totalVoluntary}</span>
+          <span className="hs-unit">jeûnes enregistrés</span>
+        </div>
+      </div>
+
       {/* Aujourd'hui */}
       <div className="card">
         <h3>Aujourd'hui</h3>
@@ -136,6 +144,33 @@ export default function Fasting() {
         <div className="stat"><div className="n">{totalVoluntary}</div><div className="l">jeûnes au total</div></div>
         <div className="stat"><div className="n">{thisMonth}</div><div className="l">ce mois-ci</div></div>
         <div className="stat"><div className="n">{upcoming.length ? upcoming.length : 0}</div><div className="l">à venir (60 j)</div></div>
+      </div>
+
+      {/* Jours spéciaux */}
+      <div className="card">
+        <h3>Jours spéciaux</h3>
+        <div className="special-list">
+          {[
+            { t: "Jours blancs", s: "13, 14, 15 de chaque mois hégirien" },
+            { t: "‘Arafa", s: "9 Dhū al-Hijja — grande récompense" },
+            { t: "‘Āshūrā’ & Tāsū‘ā", s: "9 & 10 Muharram" },
+          ].map((it) => (
+            <div className="special-row" key={it.t}>
+              <div className="tile gold"><IconMoon size={18} /></div>
+              <div>
+                <div className="st">{it.t}</div>
+                <div className="ss">{it.s}</div>
+              </div>
+            </div>
+          ))}
+          <div className="special-row danger">
+            <div className="tile"><IconFast size={18} /></div>
+            <div>
+              <div className="st">Jours interdits</div>
+              <div className="ss">Aïd al-Fitr, Aïd al-Adhā, Tashrīq</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Rappels */}

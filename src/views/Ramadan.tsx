@@ -1,4 +1,5 @@
 import { useStore, type RamadanDay } from "../state/store";
+import { IconMoon } from "../components/icons";
 
 const FIELDS: { key: keyof RamadanDay; label: string }[] = [
   { key: "fast", label: "Jeûne" },
@@ -27,12 +28,14 @@ export default function Ramadan() {
 
   if (!enabled) {
     return (
-      <div className="card center">
-        <div style={{ fontSize: 40 }}>☾</div>
-        <h3 style={{ justifyContent: "center" }}>Mode Ramadan</h3>
-        <p className="muted tiny" style={{ marginBottom: 16 }}>
-          Active le mode Ramadan pour suivre ton jeûne, tes taraweeh, ta lecture
-          et ta sadaqa pendant les 30 jours bénis.
+      <div className="card intro-card" style={{ padding: "34px 22px" }}>
+        <div className="tile xl">
+          <IconMoon size={34} />
+        </div>
+        <h3 style={{ fontSize: 18 }}>Mode Ramadan</h3>
+        <p className="sub-c">
+          Active un tracker de 30 jours : jeûne, tarāwīh, Qur'an et sadaqa,
+          avec les 10 dernières nuits mises en valeur.
         </p>
         <button className="btn block" onClick={setEnabled}>
           Activer le mode Ramadan
@@ -41,8 +44,19 @@ export default function Ramadan() {
     );
   }
 
+  const completed = Object.values(days).reduce(
+    (s, d) => s + FIELDS.filter((f) => d[f.key]).length,
+    0
+  );
+
   return (
     <>
+      <div className="hero-stat">
+        <div className="eyebrow">Ramadan Mubārak</div>
+        <div className="hs-title">30 jours de lumière</div>
+        <div className="hs-sub">{completed} actes accomplis</div>
+      </div>
+
       <div className="stats">
         <div className="stat"><div className="n">{count("fast")}</div><div className="l">jours jeûnés</div></div>
         <div className="stat"><div className="n">{count("taraweeh")}</div><div className="l">taraweeh</div></div>
