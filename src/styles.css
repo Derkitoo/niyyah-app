@@ -326,3 +326,45 @@ select.field option { background: var(--card); color: var(--ink); }
 .tiny { font-size: 11.5px; }
 .flex { display: flex; gap: 10px; }
 .grow { flex: 1; }
+
+/* =======================================================================
+   Personnalisation (réglages) — accent, cartes, navigation, contrôles
+   ======================================================================= */
+
+/* ---- Couleurs d'accent ---- */
+:root[data-accent="sage"] { --primary:#3c6b54; --primary-2:#4a7d64; --primary-ink:#3c6b54; --primary-tint:#e5f0e9; --green:#3c6b54; }
+:root[data-theme="dark"][data-accent="sage"] { --primary:#5fae81; --primary-2:#74c096; --primary-ink:#9bd9b4; --primary-tint:#1f3a2c; --green:#9bd9b4; }
+:root[data-accent="plum"] { --primary:#6d3b6e; --primary-2:#854a86; --primary-ink:#6d3b6e; --primary-tint:#f3e8f3; --green:#6d3b6e; }
+:root[data-theme="dark"][data-accent="plum"] { --primary:#bd7ebd; --primary-2:#cf94cf; --primary-ink:#e0b0e0; --primary-tint:#3a2640; --green:#e0b0e0; }
+:root[data-accent="blue"] { --primary:#27508a; --primary-2:#2f63a8; --primary-ink:#27508a; --primary-tint:#e4edf7; --green:#27508a; }
+:root[data-theme="dark"][data-accent="blue"] { --primary:#5b97e8; --primary-2:#74a8f0; --primary-ink:#9cc4f6; --primary-tint:#1c3050; --green:#9cc4f6; }
+
+/* ---- Style de cartes ---- */
+:root[data-cardstyle="contour"] .card,
+:root[data-cardstyle="contour"] .list-item,
+:root[data-cardstyle="contour"] .menu-item { box-shadow: none; }
+:root[data-cardstyle="eleve"] .card,
+:root[data-cardstyle="eleve"] .list-item,
+:root[data-cardstyle="eleve"] .menu-item { box-shadow: var(--shadow-lg); border-color: transparent; }
+
+/* ---- Navigation pleine largeur ---- */
+:root[data-nav="pleine"] .nav {
+  left: 0; right: 0; bottom: 0; margin: 0;
+  width: 100%; max-width: 480px;
+  border-radius: 0; border: none; border-top: 1px solid var(--line);
+  background: var(--card); backdrop-filter: none; -webkit-backdrop-filter: none;
+  box-shadow: 0 -6px 20px rgba(40, 36, 70, 0.06);
+  justify-content: space-around; gap: 0;
+  padding: 8px 6px calc(10px + env(safe-area-inset-bottom));
+}
+:root[data-theme="dark"][data-nav="pleine"] .nav { background: var(--card); }
+:root[data-nav="pleine"] .nav button { flex: 1; }
+
+/* ---- Contrôles de réglages (pastilles couleur + slider) ---- */
+.swatches { display: flex; gap: 10px; flex-wrap: wrap; }
+.swatch { width: 42px; height: 42px; border-radius: 13px; border: 2px solid var(--line); cursor: pointer; position: relative; padding: 0; }
+.swatch.active { border-color: var(--ink); box-shadow: var(--shadow); }
+.swatch.active::after { content: "✓"; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 17px; font-weight: 800; text-shadow: 0 1px 2px rgba(0,0,0,.35); }
+.range { width: 100%; appearance: none; -webkit-appearance: none; height: 8px; border-radius: 99px; background: var(--cream-2); outline: none; margin: 10px 0 6px; }
+.range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--primary); cursor: pointer; box-shadow: var(--shadow); }
+.range::-moz-range-thumb { width: 22px; height: 22px; border: none; border-radius: 50%; background: var(--primary); cursor: pointer; box-shadow: var(--shadow); }
