@@ -103,6 +103,15 @@ export default function App() {
     document.documentElement.dataset.theme = state.settings.theme;
   }, [state.settings.theme]);
 
+  // Personnalisation d'apparence (accent, style de cartes, navigation, arrondi)
+  useEffect(() => {
+    const r = document.documentElement;
+    r.dataset.accent = state.settings.accent ?? "indigo";
+    r.dataset.cardstyle = state.settings.cardStyle ?? "doux";
+    r.dataset.nav = state.settings.navStyle ?? "flottante";
+    r.style.setProperty("--radius", (state.settings.radius ?? 22) + "px");
+  }, [state.settings.accent, state.settings.cardStyle, state.settings.navStyle, state.settings.radius]);
+
   // App NATIVE (Capacitor) : programme les prières en notifications locales (adhan)
   useEffect(() => {
     if (!isNative()) return;
