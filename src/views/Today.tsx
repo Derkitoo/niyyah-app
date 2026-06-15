@@ -1,12 +1,57 @@
 import { useState } from "react";
-import { useStore, PRAYERS, type Prayer } from "../state/store";
+import { useStore, PRAYERS, DHIKR_PRESETS, type Prayer } from "../state/store";
 import { useNav } from "../state/nav";
 import { todayKey } from "../lib/date";
 import { fastInfo } from "../lib/fasting";
 import { IconFast, IconChevron } from "../components/icons";
 import PrayerTimes from "../components/PrayerTimes";
+import { usePrayerTimes, nextPrayer, fmtIn } from "../lib/prayer";
 
-const DHIKR_PRESETS = ["SubhanAllah", "Alhamdulillah", "Allahu Akbar", "Astaghfirullah", "La ilaha illa Allah"];
+// Nom arabe par clé d'horaire de l'API Aladhan
+const AR_BY_API: Record<string, string> = {
+  Fajr: "الفجر",
+  Dhuhr: "الظهر",
+  Asr: "العصر",
+  Maghrib: "المغرب",
+  Isha: "العشاء",
+};
+const FR_BY_API: Record<string, string> = {
+  Fajr: "Fajr",
+  Dhuhr: "Dhuhr",
+  Asr: "Asr",
+  Maghrib: "Maghrib",
+  Isha: "Isha",
+};
+
+/** Bloc « héros » : prochaine prière mise en valeur sur un fond dégradé. */
+function NextPrayerHero({ arabic }: { arabic: boolean }) {
+  const { timings, configured } = usePrayerTimes();
+  const next = timings ? nextPrayer(timings) : null;
+
+  if (!configured || !next) {
+    return (
+      <div className="hero">
+        <div className="eyebrow hero-eyebrow">Prochaine prière</div>
+        <div className="hero-name">Configure ta ville</div>
+        <div className="hero-in">Plus → Réglages → Horaires</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="hero">
+      <div className="eyebrow hero-eyebrow">Prochaine prière</div>
+      <div className="hero-name">
+        {FR_BY_API[next.name] ?? next.name}
+        {arabic && AR_BY_API[next.name] && (
+          <span className="arabic hero-ar"> {AR_BY_API[next.name]}</span>
+        )}
+      </div>
+      <div className="hero-time">{next.time}</div>
+      <div className="hero-in">{fmtIn(next.inMin)}</div>
+    </div>
+  );
+}
 
 export default function Today() {
   const { state, update } = useStore();
@@ -18,7 +63,12 @@ export default function Today() {
   const doneCount = PRAYERS.filter((p) => salah[p.key]).length;
   const grat = state.gratitude[k] ?? ["", "", ""];
   const dhikr = state.dhikr[k] ?? 0;
-  const [preset, setPreset] = useState(DHIKR_PRESETS[0]);
+  const [presetIdx, setPresetIdx] = useState(0);
+  const preset = DHIKR_PRESETS[presetIdx];
+
+  const arabic = state.settings.arabic ?? true;
+  const hero = (state.settings.layoutHome ?? "heros") === "heros";
+  const salahStyle = state.settings.salahStyle ?? "pastilles";
 
   const togglePrayer = (p: Prayer) =>
     update((d) => {
@@ -47,8 +97,12 @@ export default function Today() {
       d.dhikr[k] = 0;
     });
 
+  const ringPct = (doneCount / 5) * 100;
+
   return (
     <>
+      {hero && <NextPrayerHero arabic={arabic} />}
+
       <PrayerTimes />
 
       {/* Bannière jeûne recommandé */}
@@ -75,18 +129,72 @@ export default function Today() {
           <h3>Mes 5 prières</h3>
           <span className="stat-lbl">{doneCount}/5</span>
         </div>
-        <div className="salah-row">
-          {PRAYERS.map((p) => (
-            <button
-              key={p.key}
-              className={"prayer" + (salah[p.key] ? " done" : "")}
-              onClick={() => togglePrayer(p.key)}
-            >
-              <span className="dot">✓</span>
-              <span className="lbl">{p.label}</span>
-            </button>
-          ))}
-        </div>
+
+        {salahStyle === "pastilles" && (
+          <div className="salah-row">
+            {PRAYERS.map((p) => (
+              <button
+                key={p.key}
+                className={"prayer" + (salah[p.key] ? " done" : "")}
+                onClick={() => togglePrayer(p.key)}
+              >
+                <span className="dot">✓</span>
+                <span className="lbl">{p.label}</span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {salahStyle === "liste" && (
+          <div className="salah-list">
+            {PRAYERS.map((p) => (
+              <button
+                key={p.key}
+                className={"salah-li" + (salah[p.key] ? " done" : "")}
+                onClick={() => togglePrayer(p.key)}
+              >
+                <span className="salah-li-name">
+                  {p.label}
+                  {arabic && <span className="arabic salah-li-ar"> {p.ar}</span>}
+                </span>
+                <span className="salah-li-box">✓</span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {salahStyle === "anneau" && (
+          <div className="salah-ring-wrap">
+            <div className="salah-ring">
+              <svg viewBox="0 0 120 120" width="118" height="118">
+                <circle cx="60" cy="60" r="52" fill="none" stroke="var(--cream-2)" strokeWidth="11" />
+                <circle
+                  cx="60" cy="60" r="52" fill="none" stroke="var(--primary)" strokeWidth="11"
+                  strokeLinecap="round" strokeDasharray={2 * Math.PI * 52}
+                  strokeDashoffset={2 * Math.PI * 52 * (1 - ringPct / 100)}
+                  transform="rotate(-90 60 60)"
+                  style={{ transition: "stroke-dashoffset .5s cubic-bezier(.2,.7,.3,1)" }}
+                />
+              </svg>
+              <div className="salah-ring-num">
+                <span className="salah-ring-big">{doneCount}</span>
+                <span className="salah-ring-small">/5</span>
+              </div>
+            </div>
+            <div className="salah-ring-dots">
+              {PRAYERS.map((p) => (
+                <button
+                  key={p.key}
+                  className={"prayer" + (salah[p.key] ? " done" : "")}
+                  onClick={() => togglePrayer(p.key)}
+                >
+                  <span className="dot">✓</span>
+                  <span className="lbl">{p.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Habitudes du jour */}
@@ -114,20 +222,24 @@ export default function Today() {
       <div className="card dhikr">
         <h3>Dhikr</h3>
         <div className="chips">
-          {DHIKR_PRESETS.map((p) => (
+          {DHIKR_PRESETS.map((p, i) => (
             <span
-              key={p}
-              className={"chip" + (p === preset ? " active" : "")}
-              onClick={() => setPreset(p)}
+              key={p.fr}
+              className={"chip" + (i === presetIdx ? " active" : "")}
+              onClick={() => setPresetIdx(i)}
             >
-              {p}
+              {p.fr}
             </span>
           ))}
         </div>
-        <button className="tap" onClick={tapDhikr} aria-label={`Compter ${preset}`}>
-          <span className="tap-name">{preset}</span>
+        <button className="tap" onClick={tapDhikr} aria-label={`Compter ${preset.fr}`}>
+          {arabic ? (
+            <span className="arabic tap-ar">{preset.ar}</span>
+          ) : (
+            <span className="tap-name">{preset.fr}</span>
+          )}
           <span className="tap-count">{dhikr}</span>
-          <span className="tap-hint">appuie pour compter</span>
+          <span className="tap-hint">/ {preset.target} · appuie</span>
         </button>
         <div className="dhikr-actions">
           <button className="btn ghost sm" onClick={resetDhikr}>

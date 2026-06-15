@@ -217,6 +217,62 @@ export default function Settings() {
       </div>
 
       <div className="card">
+        <h3>Écrans</h3>
+
+        <label className="lab" style={{ marginTop: 0 }}>Accueil</label>
+        <div className="chips" style={{ justifyContent: "flex-start" }}>
+          {([
+            { id: "heros", label: "Avec héros" },
+            { id: "sobre", label: "Sobre" },
+          ] as const).map((l) => (
+            <span
+              key={l.id}
+              className={"chip" + ((state.settings.layoutHome ?? "heros") === l.id ? " active" : "")}
+              onClick={() => update((d) => { d.settings.layoutHome = l.id; })}
+            >
+              {l.label}
+            </span>
+          ))}
+        </div>
+
+        <label className="lab">Affichage des prières</label>
+        <div className="chips" style={{ justifyContent: "flex-start" }}>
+          {([
+            { id: "pastilles", label: "Pastilles" },
+            { id: "liste", label: "Liste" },
+            { id: "anneau", label: "Anneau" },
+          ] as const).map((s) => (
+            <span
+              key={s.id}
+              className={"chip" + ((state.settings.salahStyle ?? "pastilles") === s.id ? " active" : "")}
+              onClick={() => update((d) => { d.settings.salahStyle = s.id; })}
+            >
+              {s.label}
+            </span>
+          ))}
+        </div>
+
+        <label className="lab">Accents arabes</label>
+        <div className="chips" style={{ justifyContent: "flex-start" }}>
+          {([
+            { id: true, label: "Activés" },
+            { id: false, label: "Masqués" },
+          ] as const).map((a) => (
+            <span
+              key={String(a.id)}
+              className={"chip" + ((state.settings.arabic ?? true) === a.id ? " active" : "")}
+              onClick={() => update((d) => { d.settings.arabic = a.id; })}
+            >
+              {a.label}
+            </span>
+          ))}
+        </div>
+        <p className="tiny muted" style={{ margin: "4px 0 0" }}>
+          Affiche les noms arabes (prières, dhikr) en calligraphie.
+        </p>
+      </div>
+
+      <div className="card">
         <h3>Horaires de prière</h3>
         <p className="sub" style={{ marginTop: 0 }}>Méthode de calcul</p>
         <select
