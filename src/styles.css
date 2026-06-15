@@ -368,3 +368,50 @@ select.field option { background: var(--card); color: var(--ink); }
 .range { width: 100%; appearance: none; -webkit-appearance: none; height: 8px; border-radius: 99px; background: var(--cream-2); outline: none; margin: 10px 0 6px; }
 .range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--primary); cursor: pointer; box-shadow: var(--shadow); }
 .range::-moz-range-thumb { width: 22px; height: 22px; border: none; border-radius: 50%; background: var(--primary); cursor: pointer; box-shadow: var(--shadow); }
+
+/* ---- Hero « prochaine prière » (layout accueil = héros) ---- */
+.hero {
+  background: var(--grad); color: #fbf8f1; border-radius: calc(var(--radius) + 6px);
+  padding: 22px 22px 20px; margin-bottom: 14px; box-shadow: var(--shadow-lg);
+  position: relative; overflow: hidden;
+}
+.hero::after {
+  content: ""; position: absolute; right: -34px; top: -34px; width: 150px; height: 150px;
+  border-radius: 50%; border: 1.5px solid rgba(255,255,255,.16); opacity: .7;
+}
+.hero .hero-eyebrow { color: var(--gold-l); }
+.hero .hero-name { font-size: 32px; font-weight: 800; letter-spacing: -1px; margin: 8px 0 2px; line-height: 1.1; }
+.hero .hero-ar { font-size: 26px; font-weight: 400; opacity: .92; margin-right: 2px; }
+.hero .hero-time { font-size: 26px; font-weight: 700; letter-spacing: -.5px; margin-top: 6px; }
+.hero .hero-in { font-size: 13px; color: rgba(255,255,255,.8); margin-top: 2px; font-weight: 600; }
+
+/* ---- Tracker prières : style « liste » ---- */
+.salah-list { display: flex; flex-direction: column; gap: 8px; }
+.salah-li {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  width: 100%; text-align: left; cursor: pointer;
+  background: var(--surface-2); border: 1.5px solid var(--line); border-radius: 14px;
+  padding: 13px 15px; transition: border-color .15s ease, background-color .15s ease;
+}
+.salah-li.done { background: var(--primary-tint); border-color: transparent; }
+.salah-li-name { font-size: 15px; font-weight: 700; color: var(--ink); display: flex; align-items: baseline; gap: 8px; }
+.salah-li.done .salah-li-name { color: var(--primary-ink); }
+.salah-li-ar { font-size: 17px; font-weight: 400; color: var(--gold); }
+.salah-li-box {
+  width: 28px; height: 28px; border-radius: 9px; border: 1.8px solid var(--line);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  color: transparent; font-size: 15px; background: var(--card);
+}
+.salah-li.done .salah-li-box { background: var(--grad); border-color: transparent; color: #fff; }
+
+/* ---- Tracker prières : style « anneau » ---- */
+.salah-ring-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.salah-ring { position: relative; width: 118px; height: 118px; }
+.salah-ring-num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.salah-ring-big { font-size: 38px; font-weight: 800; letter-spacing: -1.5px; color: var(--primary-ink); }
+.salah-ring-small { font-size: 16px; font-weight: 700; color: var(--green-soft); margin-left: 1px; }
+.salah-ring-dots { display: flex; justify-content: space-between; gap: 6px; width: 100%; }
+.salah-ring-dots .prayer .dot { width: 40px; height: 40px; }
+
+/* ---- Dhikr : texte arabe dans le cercle ---- */
+.dhikr .tap .tap-ar { font-size: 26px; font-weight: 400; letter-spacing: 0; opacity: .95; line-height: 1.2; }
