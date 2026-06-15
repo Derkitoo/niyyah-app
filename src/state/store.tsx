@@ -9,12 +9,20 @@ import {
 
 // ---- Types ----
 export type Prayer = "fajr" | "dhuhr" | "asr" | "maghrib" | "isha";
-export const PRAYERS: { key: Prayer; label: string }[] = [
-  { key: "fajr", label: "Fajr" },
-  { key: "dhuhr", label: "Dhuhr" },
-  { key: "asr", label: "Asr" },
-  { key: "maghrib", label: "Maghrib" },
-  { key: "isha", label: "Isha" },
+export const PRAYERS: { key: Prayer; label: string; ar: string }[] = [
+  { key: "fajr", label: "Fajr", ar: "الفجر" },
+  { key: "dhuhr", label: "Dhuhr", ar: "الظهر" },
+  { key: "asr", label: "Asr", ar: "العصر" },
+  { key: "maghrib", label: "Maghrib", ar: "المغرب" },
+  { key: "isha", label: "Isha", ar: "العشاء" },
+];
+
+export const DHIKR_PRESETS: { fr: string; ar: string; target: number }[] = [
+  { fr: "SubhanAllah", ar: "سُبْحَانَ ٱللَّٰه", target: 33 },
+  { fr: "Alhamdulillah", ar: "ٱلْحَمْدُ لِلَّٰه", target: 33 },
+  { fr: "Allahu Akbar", ar: "ٱللَّٰهُ أَكْبَر", target: 34 },
+  { fr: "Astaghfirullah", ar: "أَسْتَغْفِرُ ٱللَّٰه", target: 100 },
+  { fr: "La ilaha illa Allah", ar: "لَا إِلَٰهَ إِلَّا ٱللَّٰه", target: 100 },
 ];
 
 export type SalahDay = Partial<Record<Prayer, boolean>>;
@@ -44,6 +52,9 @@ export interface State {
     radius: number;
     cardStyle: "doux" | "contour" | "eleve";
     navStyle: "flottante" | "pleine";
+    layoutHome: "heros" | "sobre";
+    salahStyle: "pastilles" | "liste" | "anneau";
+    arabic: boolean;
     pushServerUrl: string;
     pushPrayer: boolean;
   };
@@ -77,6 +88,9 @@ const DEFAULT_STATE: State = {
     radius: 22,
     cardStyle: "doux",
     navStyle: "flottante",
+    layoutHome: "heros",
+    salahStyle: "pastilles",
+    arabic: true,
     pushServerUrl: import.meta.env.VITE_PUSH_SERVER_URL || "http://localhost:4000",
     pushPrayer: false,
   },
